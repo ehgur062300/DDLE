@@ -1,0 +1,115 @@
+body {
+    background-color: #f8f9fa;
+    color: #343a40;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+h1 {
+    color: #265a61;
+}
+
+.blog-post {
+    margin-top: 20px;
+}
+
+.code-block {
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    overflow-x: auto;
+}
+
+.like-btn {
+    border: none;
+    padding: 15px;
+    cursor: pointer;
+    border-radius: 20%;
+    position: relative;
+    font-size: 18px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.like-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    top: 40%;
+    right: 20px;
+    z-index: 0; /* Ensure like-btn is below circular-btn */
+}
+
+.like-btn h4 {
+    margin: 0;
+}
+
+.like-count {
+    color: black;
+    font-size: 14px;
+}
+
+.code-input {
+    font-family: 'Courier New', monospace;
+    border: 1px solid #ced4da;
+    background-color: #f8f9fa;
+    padding: 8px;
+    height: 200px;
+    border-radius: 5px;
+}
+
+.context-input {
+    border: 1px solid #ced4da;
+    padding: 8px;
+    height: 200px;
+    border-radius: 5px;
+}
+
+.btn-light {
+    color: #265a61;
+    background-color: #ffffff;
+    border-color: #265a61;
+}
+
+.btn-light:hover {
+    background-color: #f0f0f0;
+}
+
+.btn-primary {
+    background-color: #265a61;
+    border-color: #265a61;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+/*.circular-btn {*/
+/*    border: 1px solid #ced4da;*/
+/*    color: #ffffff;*/
+/*    border: none;*/
+/*    border-radius: 50%;*/
+/*    width: 60px;*/
+/*    height: 60px;*/
+/*    cursor: pointer;*/
+/*    font-size: 18px;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    position: fixed;*/
+/*    left: 10px;*/
+/*    z-index: 1000;*/
+/*}*/

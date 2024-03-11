@@ -12,11 +12,10 @@ public class MemberUpdateRequestDto {
 
     private String nickName;
     private String password;
+    private String phone;
 
     @Embedded
     private Address address;
-
-    private String phone;
 
     @Builder
     public MemberUpdateRequestDto(String nickName, String password, Address address, String phone) {

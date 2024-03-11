@@ -29,7 +29,6 @@ public class MemberApiController {
      */
     @PostMapping("/member/save")
     public ResponseEntity<? extends BasicResponse> save(@Valid @RequestBody SignupRequestDto requestDto, BindingResult result){
-
         if (result.hasErrors()) {
             List<String> errors = result.getFieldErrors()
                     .stream()

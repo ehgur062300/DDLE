@@ -38,7 +38,6 @@ public class MemberService {
 
     public Member signUp(SignupRequestDto requestDto){
 
-
         Member member = Member.builder()
                 .email(requestDto.getEmail())
                 .password(requestDto.getPassword())

@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Getter
 public class SignupResponseDto {
-
     private final String email;
     private final String password;
     private final String nickName;
