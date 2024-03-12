@@ -20,7 +20,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     // Spring Security를 사용한 로그인 구현 시 사용
-//    private final BCryptPasswordEncoder encoder;
+    // private final BCryptPasswordEncoder encoder;
 
     /**
      * email 중복 체크
@@ -38,31 +38,25 @@ public class MemberService {
 
     public Member signUp(SignupRequestDto requestDto){
 
-        Member member = Member.builder()
-                .email(requestDto.getEmail())
-                .password(requestDto.getPassword())
-                .nickName(requestDto.getNickName())
-                .build();
-
-        return memberRepository.save(member);
+        return memberRepository.save(requestDto.toEntity());
     }
 
     /**
      *  로그인 기능
      */
     public Member login(LoginRequestDto requestDto){
-        Optional<Member> optionalMember = memberRepository.findByEmail(requestDto.getEmail());
+        Optional<Member> member = memberRepository.findByEmail(requestDto.getEmail());
 
-        if (optionalMember.isEmpty()) {
+        if (member.isEmpty()) {
             return null;
         }
 
-        Member member = optionalMember.get();
-        if (!member.getPassword().equals(requestDto.getPassword())) {
+
+        if (!member.get().getPassword().equals(requestDto.getPassword())) {
             return null;
         }
 
-        return member;
+        return member.get();
     }
 
     /**

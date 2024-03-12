@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public abstract class BasicResponse<T> {
+public abstract class BasicResponse {
 
 }
