@@ -30,34 +30,17 @@ public class MemberApiController {
     @PostMapping("/member/save")
     public ResponseEntity<? extends BasicResponse> save(@Valid @RequestBody SignupRequestDto requestDto, BindingResult bindingResult){
 
-        String errorMessage = chkError(bindingResult);
-        if(errorMessage != null){
+        String errorMessage = memberService.chkError(bindingResult);
+        if(!errorMessage.isEmpty()){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ErrorResponse(errorMessage));
+                    .body(new ErrorResponse(errorMessage,"400"));
         }
 
-        Member member = memberService.signUp(requestDto);
-
-        return ResponseEntity.noContent().build();
+        return memberService.signUp(requestDto);
     }
 
 
     /** read **/
-    @PostMapping("/member/login")
-    public ResponseEntity<? extends BasicResponse> login(@Valid @RequestBody LoginRequestDto requestDto, BindingResult bindingResult) {
-
-        String errorMessage = chkError(bindingResult);
-        if(errorMessage != null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ErrorResponse(errorMessage));
-        }
-
-        memberService.login(requestDto);
-
-        return ResponseEntity.ok().body(new CommonResponse<LoginRequestDto>(requestDto));
-    }
-
-
     @GetMapping("/member/{email}")
     public ResponseEntity<? extends BasicResponse> findByEmail(@PathVariable("email") String email){
 
@@ -67,7 +50,7 @@ public class MemberApiController {
                     .body(new ErrorResponse("일치하는 회원 정보가 없습니다. 사용자 Email을 확인해주세요."));
         }
 
-        return ResponseEntity.ok().body(new CommonResponse<Member>(member.get()));
+        return ResponseEntity.ok().body(new CommonResponse<Integer>(member.get().getId()));
     }
 
 
@@ -92,18 +75,5 @@ public class MemberApiController {
                     .body(new ErrorResponse("일치하는 회원 정보가 없습니다. 사용자 id를 확인해주세요"));
         }
         return ResponseEntity.noContent().build();
-    }
-
-
-    private String chkError(BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            List<String> errors = bindingResult.getFieldErrors()
-                    .stream()
-                    .map(error -> error.getField() + ": " + error.getDefaultMessage())
-                    .collect(Collectors.toList());
-
-            return String.join(", ", errors);
-        }
-        return null;
     }
 }
