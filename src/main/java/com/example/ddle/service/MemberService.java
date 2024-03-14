@@ -30,7 +30,7 @@ public class MemberService {
     // Spring Security를 사용한 로그인 구현 시 사용
     // private final BCryptPasswordEncoder encoder;
 
-    /** email 중복 체크 */
+    /** email 존재 여부 */
     public boolean existsByEmail(String email){
         return memberRepository.existsByEmail(email);
     }
@@ -41,13 +41,13 @@ public class MemberService {
     }
 
     /** password 일치 여부 */
-    public boolean checkPassword(String password, String email) {
+    public boolean authenticate(LoginRequestDto requestDto) {
 
-        String savedPW = memberRepository.findByEmail(email)
-                .orElseThrow(NoSuchElementException::new)
-                .getPassword();
-
-        return password.equals(savedPW);
+        if (existsByEmail(requestDto.getEmail())) {
+            Member member = memberRepository.findByEmail(requestDto.getEmail()).orElseThrow(NoSuchElementException::new);
+            return member.getPassword().equals(requestDto.getPassword());
+        }
+        return false;
     }
 
     public ResponseEntity<? extends BasicResponse> signUp(SignupRequestDto requestDto){

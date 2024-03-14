@@ -1,24 +1,21 @@
 package com.example.ddle.web.controller;
 
+import com.example.ddle.domain.SessionConst;
 import com.example.ddle.domain.member.Member;
 import com.example.ddle.service.MemberService;
-import com.example.ddle.web.dto.exceptionDto.BasicResponse;
-import com.example.ddle.web.dto.exceptionDto.CommonResponse;
-import com.example.ddle.web.dto.exceptionDto.ErrorResponse;
 import com.example.ddle.web.dto.loginDto.LoginRequestDto;
+import com.example.ddle.web.dto.memberDto.MemberResponseDto;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
+@SessionAttributes("member")
 @RequiredArgsConstructor
 @Controller
 public class IndexController {
@@ -36,25 +33,25 @@ public class IndexController {
     }
 
     @GetMapping("/member/login")
-    public String login(){
+    public String login() { return "login"; }
+
+    @PostMapping("/member/login")
+    public String login(@Valid @RequestBody LoginRequestDto requestDto, HttpSession session) {
+
+        // 로그인 성공
+        if(memberService.authenticate(requestDto)){
+
+            Member member = memberService.findByEmail(requestDto.getEmail())
+                    .orElseThrow(NoSuchElementException::new);
+
+
+            // member session 에 저장
+            session.setAttribute("member",new MemberResponseDto(member.getEmail(), member.getNickName()));
+            return "redirect:/";
+        }
+
         return "login";
     }
 
-    @PostMapping("/member/login")
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public String login(@RequestBody LoginRequestDto requestDto) {
-
-        // email 인증 실패 OR password 인증 실패
-        if(!memberService.checkPassword(requestDto.getPassword(), requestDto.getEmail())
-                || !memberService.existsByEmail(requestDto.getEmail())){
-            return "login";
-        }
-        Member member = memberService.findByEmail(requestDto.getEmail())
-                .orElseThrow(NoSuchElementException::new);
-
-        // member model 로 넘기기
-
-        return "index";
-    }
 
 }
